@@ -1,0 +1,53 @@
+import java.sql.*;
+
+class DBConnect
+{
+	Statement s;
+	Connection c;
+	DBConnect()
+	{
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			c=DriverManager.getConnection("jdbc:mysql://localhost/mydb","root","12");  //testDB is dbname,   root is dbusername and dbpassword
+			s=c.createStatement();
+			
+			s.execute("CREATE TABLE JavaLab(name text(16),surname text(6),city text(6))");
+			System.out.println("Table created");
+		}
+
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public static void main(String args[])
+	{
+		DBConnect x=new DBConnect();
+	}
+}
+
+mysql> use mydb;
+Database changed
+mysql> desc mydb;
+ERROR 1146 (42S02): Table 'mydb.mydb' doesn't exist
+mysql> show tables;
++----------------+
+| Tables_in_mydb |
++----------------+
+| javalab        |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> desc javalab;
++---------+----------+------+-----+---------+-------+
+| Field   | Type     | Null | Key | Default | Extra |
++---------+----------+------+-----+---------+-------+
+| name    | tinytext | YES  |     | NULL    |       |
+| surname | tinytext | YES  |     | NULL    |       |
+| city    | tinytext | YES  |     | NULL    |       |
++---------+----------+------+-----+---------+-------+
+3 rows in set (0.04 sec)
+
+mysql>

@@ -1,0 +1,55 @@
+mysql> use db;
+Database changed
+mysql> create book_company(book_id int(6),book_name char(24),book_author char(26),book_price int(6));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'book_company(book_id int(6),book_name char(24),book_author char(26),book_price i' at line 1
+mysql> create table book_company(book_id int(6),book_name char(24),book_author char(26),book_price int(6));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into book_company values(100,"Gernimo Stilton","Gernimo",450);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into book_company values(101,"Titanic","James",600);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into book_company values(101,"Jurassic","Daniel",1000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select*from book_company;
++---------+-----------------+-------------+------------+
+| book_id | book_name       | book_author | book_price |
++---------+-----------------+-------------+------------+
+|     100 | Gernimo Stilton | Gernimo     |        450 |
+|     101 | Titanic         | James       |        600 |
+|     101 | Jurassic        | Daniel      |       1000 |
++---------+-----------------+-------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> update book_company set book_price=700 where book_id=100;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from book_company;
++---------+-----------------+-------------+------------+
+| book_id | book_name       | book_author | book_price |
++---------+-----------------+-------------+------------+
+|     100 | Gernimo Stilton | Gernimo     |        700 |
+|     101 | Titanic         | James       |        600 |
+|     101 | Jurassic        | Daniel      |       1000 |
++---------+-----------------+-------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select book_name from book_company where book_name="jurassic";
++-----------+
+| book_name |
++-----------+
+| Jurassic  |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select book_price from book_company where book_name="jurassic";
++------------+
+| book_price |
++------------+
+|       1000 |
++------------+
+1 row in set (0.00 sec)

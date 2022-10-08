@@ -1,0 +1,94 @@
+mysql> use db;
+Database changed
+mysql> show tables;
++--------------+
+| Tables_in_db |
++--------------+
+| bank         |
+| bank_view    |
+| bike         |
+| casino       |
+| course       |
+| creams       |
+| department   |
+| employee     |
+| factory      |
+| faculty      |
+| kfc          |
+| stars        |
+| stu          |
+| student      |
++--------------+
+14 rows in set (0.00 sec)
+
+mysql> desc employee;
++-----------+----------+------+-----+---------+-------+
+| Field     | Type     | Null | Key | Default | Extra |
++-----------+----------+------+-----+---------+-------+
+| empid     | int(3)   | YES  |     | NULL    |       |
+| empname   | char(10) | YES  |     | NULL    |       |
+| empadd    | char(30) | YES  |     | NULL    |       |
+| empsalary | int(30)  | YES  |     | NULL    |       |
++-----------+----------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+mysql> insert into employee values(012,'krithik','kolathur',32432);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee values(013,'varun','valarpuram',70000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee values(024,'tarun','koyembedu',90000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select*from employee;
++-------+---------+------------+-----------+
+| empid | empname | empadd     | empsalary |
++-------+---------+------------+-----------+
+|    12 | krithik | kolathur   |     32432 |
+|    13 | varun   | valarpuram |     70000 |
+|    24 | tarun   | koyembedu  |     90000 |
++-------+---------+------------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> update employee set empsalary=50000 where empadd="kolathur";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from employee;
++-------+---------+------------+-----------+
+| empid | empname | empadd     | empsalary |
++-------+---------+------------+-----------+
+|    12 | krithik | kolathur   |     50000 |
+|    13 | varun   | valarpuram |     70000 |
+|    24 | tarun   | koyembedu  |     90000 |
++-------+---------+------------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> select sum(empsalary),min(empsalary),max(empsalary),avg(empsalary) from employee;
++----------------+----------------+----------------+----------------+
+| sum(empsalary) | min(empsalary) | max(empsalary) | avg(empsalary) |
++----------------+----------------+----------------+----------------+
+|         210000 |          50000 |          90000 |     70000.0000 |
++----------------+----------------+----------------+----------------+
+1 row in set (0.02 sec)
+
+mysql> select empname,empadd from employee where empsalary=90000;
++---------+-----------+
+| empname | empadd    |
++---------+-----------+
+| tarun   | koyembedu |
++---------+-----------+
+1 row in set (0.00 sec)
+
+mysql> delete from employee where empid=12;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select*from employee;
++-------+---------+------------+-----------+
+| empid | empname | empadd     | empsalary |
++-------+---------+------------+-----------+
+|    13 | varun   | valarpuram |     70000 |
+|    24 | tarun   | koyembedu  |     90000 |
++-------+---------+------------+-----------+
+2 rows in set (0.00 sec)

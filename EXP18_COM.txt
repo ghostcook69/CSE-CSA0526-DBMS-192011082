@@ -1,0 +1,60 @@
+mysql> select * from officers;
++-------+---------+----------+
+| name  | dept_id | off_rank |
++-------+---------+----------+
+| kali  |      82 | A        |
+| mohan |      95 | B        |
+| rita  |      45 | A        |
++-------+---------+----------+
+3 rows in set (0.00 sec)
+
+mysql> set @@commit;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select @@autocommit;
++--------------+
+| @@autocommit |
++--------------+
+|            1 |
++--------------+
+1 row in set (0.01 sec)
+
+mysql> insert into officers("lal",67,"A");
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"lal",67,"A")' at line 1
+mysql> insert into officers values("lal",67,"A");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> set autocommit=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select @@autocommit;
++--------------+
+| @@autocommit |
++--------------+
+|            0 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> delete from officers where off_rank="A";
+Query OK, 3 rows affected (0.00 sec)
+
+mysql> select * from officers;
++-------+---------+----------+
+| name  | dept_id | off_rank |
++-------+---------+----------+
+| mohan |      95 | B        |
++-------+---------+----------+
+1 row in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from officers;
++-------+---------+----------+
+| name  | dept_id | off_rank |
++-------+---------+----------+
+| kali  |      82 | A        |
+| mohan |      95 | B        |
+| rita  |      45 | A        |
+| lal   |      67 | A        |
++-------+---------+----------+
+4 rows in set (0.00 sec)

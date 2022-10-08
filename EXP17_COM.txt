@@ -1,0 +1,38 @@
+Enter password: *******************
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 26
+Server version: 8.0.30 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> select * from officers;
+ERROR 1046 (3D000): No database selected
+mysql> use db;
+ERROR 1049 (42000): Unknown database 'db'
+mysql> use mydb;
+Database changed
+mysql> select * from officers;
++-------+---------+----------+
+| name  | dept_id | off_rank |
++-------+---------+----------+
+| kali  |      82 | A        |
+| mohan |      95 | B        |
+| rita  |      45 | A        |
++-------+---------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select repeat(name ,2) from officers;
++-----------------+
+| repeat(name ,2) |
++-----------------+
+| kalikali        |
+| mohanmohan      |
+| ritarita        |
++-----------------+
+3 rows in set (0.00 sec)
