@@ -1,0 +1,152 @@
+Enter password: *******************
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.30 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use mydb;
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_mydb |
++----------------+
+| actors         |
+| bank           |
+| course         |
+| cust           |
+| dept           |
+| emp_det        |
+| emp_exp        |
+| new_details    |
+| officers       |
+| orders         |
+| parts          |
+| player         |
+| pupil          |
+| sal_view       |
+| student        |
+| suppliers      |
+| t              |
+| team           |
+| temp           |
+| theater        |
++----------------+
+20 rows in set (0.01 sec)
+
+mysql> select * from emp_exp;
++----------+-------+-------+-------+------+
+| name     | exp   | grade | field | id   |
++----------+-------+-------+-------+------+
+| Ramesh   | 7yrs  | A     | LTX   |    3 |
+| Khilan   | 7yrs  | B     | MRN   |    1 |
+| Kaushik  | 11yrs | A     | RNT   |    5 |
+| Chaitali | 11yrs | A     | LTX   |    6 |
+| Hardik   | 13yrs | B     | JZX   |    2 |
+| Muffy    | 11yrs | C     | RNT   |    4 |
++----------+-------+-------+-------+------+
+6 rows in set (0.01 sec)
+
+mysql> savepoint sap1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delete from emp_exp
+    -> where grade="A";
+Query OK, 3 rows affected (0.01 sec)
+
+mysql> select * from emp_exp;
++--------+-------+-------+-------+------+
+| name   | exp   | grade | field | id   |
++--------+-------+-------+-------+------+
+| Khilan | 7yrs  | B     | MRN   |    1 |
+| Hardik | 13yrs | B     | JZX   |    2 |
+| Muffy  | 11yrs | C     | RNT   |    4 |
++--------+-------+-------+-------+------+
+3 rows in set (0.00 sec)
+
+mysql> savepoint sp2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> rollback sp1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'sp1' at line 1
+mysql> rollback to sp1;
+ERROR 1305 (42000): SAVEPOINT sp1 does not exist
+mysql> rollback to sap1;
+ERROR 1305 (42000): SAVEPOINT sap1 does not exist
+mysql> rollback to sp2;
+ERROR 1305 (42000): SAVEPOINT sp2 does not exist
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> savepoint p1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into emp_exp values("Ramesh","7yrs","A","LTX",3);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp_exp values("Kaushik","11yrs","A","RNT",5);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from emp_exp;
++---------+-------+-------+-------+------+
+| name    | exp   | grade | field | id   |
++---------+-------+-------+-------+------+
+| Khilan  | 7yrs  | B     | MRN   |    1 |
+| Hardik  | 13yrs | B     | JZX   |    2 |
+| Muffy   | 11yrs | C     | RNT   |    4 |
+| Ramesh  | 7yrs  | A     | LTX   |    3 |
+| Kaushik | 11yrs | A     | RNT   |    5 |
++---------+-------+-------+-------+------+
+5 rows in set (0.00 sec)
+
+mysql> savepoint p2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delete from emp_exp
+    -> where grade='C';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from emp_exp;
++---------+-------+-------+-------+------+
+| name    | exp   | grade | field | id   |
++---------+-------+-------+-------+------+
+| Khilan  | 7yrs  | B     | MRN   |    1 |
+| Hardik  | 13yrs | B     | JZX   |    2 |
+| Ramesh  | 7yrs  | A     | LTX   |    3 |
+| Kaushik | 11yrs | A     | RNT   |    5 |
++---------+-------+-------+-------+------+
+4 rows in set (0.00 sec)
+
+mysql> rollback to p2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from emp_exp;
++---------+-------+-------+-------+------+
+| name    | exp   | grade | field | id   |
++---------+-------+-------+-------+------+
+| Khilan  | 7yrs  | B     | MRN   |    1 |
+| Hardik  | 13yrs | B     | JZX   |    2 |
+| Muffy   | 11yrs | C     | RNT   |    4 |
+| Ramesh  | 7yrs  | A     | LTX   |    3 |
+| Kaushik | 11yrs | A     | RNT   |    5 |
++---------+-------+-------+-------+------+
+5 rows in set (0.00 sec)
+
+mysql> rollback to p1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from emp_exp;
++--------+-------+-------+-------+------+
+| name   | exp   | grade | field | id   |
++--------+-------+-------+-------+------+
+| Khilan | 7yrs  | B     | MRN   |    1 |
+| Hardik | 13yrs | B     | JZX   |    2 |
+| Muffy  | 11yrs | C     | RNT   |    4 |
++--------+-------+-------+-------+------+
+3 rows in set (0.00 sec)

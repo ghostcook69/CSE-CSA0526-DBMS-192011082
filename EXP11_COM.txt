@@ -1,0 +1,113 @@
+mysql> create table student(name varchar(12), stu_id int(4), avg_mark int(2));
+Query OK, 0 rows affected, 2 warnings (0.04 sec)
+
+mysql> insert into student values("chan",11,79);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student values("reta",09,53);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student values("kai",19,81);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student values("joye",05,92);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student values("stella",13,69);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student values("max",21,42);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student values("henna",07,39);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from student;
++--------+--------+----------+
+| name   | stu_id | avg_mark |
++--------+--------+----------+
+| chan   |     11 |       79 |
+| reta   |      9 |       53 |
+| kai    |     19 |       81 |
+| joye   |      5 |       92 |
+| stella |     13 |       69 |
+| max    |     21 |       42 |
+| henna  |      7 |       39 |
++--------+--------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select name,stu_id,if(avg_mark>50,"pass","fail")
+    -> from student;
++--------+--------+-------------------------------+
+| name   | stu_id | if(avg_mark>50,"pass","fail") |
++--------+--------+-------------------------------+
+| chan   |     11 | pass                          |
+| reta   |      9 | pass                          |
+| kai    |     19 | pass                          |
+| joye   |      5 | pass                          |
+| stella |     13 | pass                          |
+| max    |     21 | fail                          |
+| henna  |      7 | fail                          |
++--------+--------+-------------------------------+
+7 rows in set (0.00 sec)
+
+mysql>
+
+mysql> select * from emp_exp;
++----------+-------+-------+-------+------+
+| name     | exp   | grade | field | id   |
++----------+-------+-------+-------+------+
+| Ramesh   | 7yrs  | A     | LTX   |    3 |
+| Khilan   | 7yrs  | B     | MRN   |    1 |
+| Kaushik  | 11yrs | A     | RNT   |    5 |
+| Chaitali | 11yrs | A     | LTX   |    6 |
+| Hardik   | 13yrs | B     | JZX   |    2 |
+| Muffy    | 11yrs | C     | RNT   |    4 |
++----------+-------+-------+-------+------+
+6 rows in set (0.00 sec)
+
+mysql> select name,exp,
+    -> case
+    -> when grade='A' then "tier_1"
+    -> when grade='B' then "tier_2"
+    -> else "tier_3"
+    -> end as seniority
+    -> from emp_exp;
++----------+-------+-----------+
+| name     | exp   | seniority |
++----------+-------+-----------+
+| Ramesh   | 7yrs  | tier_1    |
+| Khilan   | 7yrs  | tier_2    |
+| Kaushik  | 11yrs | tier_1    |
+| Chaitali | 11yrs | tier_1    |
+| Hardik   | 13yrs | tier_2    |
+| Muffy    | 11yrs | tier_3    |
++----------+-------+-----------+
+6 rows in set (0.00 sec)
+
+mysql>
+mysql> DELIMITER //
+mysql> CREATE PROCEDURE while_loop()
+    -> BEGIN
+    -> DECLARE num INT default 1;
+    -> DECLARE res varchar(50) default '';
+    -> while num<78125 DO
+    -> set res=CONCAT(res,num,',');
+    -> set num=num*5;
+    -> end while;
+    -> select res;
+    -> END //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> call while_loop();
+    -> //
++----------------------------+
+| res                        |
++----------------------------+
+| 1,5,25,125,625,3125,15625, |
++----------------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>

@@ -1,0 +1,37 @@
+mysql> create user tgr;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> grant all on GTA to tgr;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show grants for tgr;
++------------------------------------------------------+
+| Grants for tgr@%                                  |
++------------------------------------------------------+
+| GRANT USAGE ON *.* TO 'tgr'@'%'                   |
+| GRANT ALL PRIVILEGES ON `game`.`gta` TO 'tgr'@'%' |
++------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> revoke all on GTA from tgr;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show grants for tgr;
++------------------------------------+
+| Grants for tgr@%                |
++------------------------------------+
+| GRANT USAGE ON *.* TO 'tgr'@'%' |
++------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> grant select, update on GTA to tgr;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show grants for tgr;
++------------------------------------------------------+
+| Grants for tgr@%                                  |
++------------------------------------------------------+
+| GRANT USAGE ON *.* TO 'tgr'@'%'                   |
+| GRANT SELECT, UPDATE ON `game`.`gta` TO 'tgr'@'%' |
++------------------------------------------------------+
+2 rows in set (0.00 sec)

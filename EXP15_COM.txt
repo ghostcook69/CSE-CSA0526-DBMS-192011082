@@ -1,0 +1,46 @@
+mysql> use game
+Database changed
+mysql> DELIMITER //
+mysql> CREATE PROCEDURE while_loop()
+    -> BEGIN
+    -> DECLARE num INT default 1;
+    -> declare res varchar(50) default '';
+    -> while num<76000 do
+    -> set res = concat(res,num,',');
+    -> set num=num*5;
+    -> end while;
+    -> select res;
+    -> end //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> call while_loop();
+    -> //
++----------------------------+
+| res                        |
++----------------------------+
+| 1,5,25,125,625,3125,15625, |
++----------------------------+
+1 row in set (0.01 sec)
+
+mysql> DELIMITER //
+mysql> CREATE PROCEDURE gta_leaks()
+    -> BEGIN
+    -> select * from GTA;
+    -> END; //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CALL gta_leaks();
+    -> //
++-----------+----------+--------------+--------------+-----------+-------------+-----------+------+
+| char_name | weapons  | vehicles     | business     | inventory | speciality  | char_code | dlc  |
++-----------+----------+--------------+--------------+-----------+-------------+-----------+------+
+| maha      | shotgun  | buggy        | forensic     | auto      | hacker      | codebeta  | 2017 |
+| pheneas   | trumphet | austonmartin | cash_factory | axe       | photography | 734589    | 2019 |
+| Ragnar    | auto_smg | santro       | cash factory | tools     | skyfall     | codemeta  | NULL |
+| Michael   | SMG      | GhostTourism | Cocaine      | Cargo     | Tracker     | NULL      | NULL |
++-----------+----------+--------------+--------------+-----------+-------------+-----------+------+
+4 rows in set (0.04 sec)
+
+Query OK, 0 rows affected (0.07 sec)
+
+mysql>

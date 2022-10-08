@@ -1,0 +1,145 @@
+Enter password: *******************
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 14
+Server version: 8.0.29 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use tgr;
+Database changed
+mysql> create table actors(act_id int(),ac_name varchar(15),play varchar(15));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '),ac_name varchar(15),play varchar(15))' at line 1
+mysql> create table actors(act_id int(4),ac_name varchar(15),play varchar(15));
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+
+mysql> create table theater(play varchar(10),time varchar(5),act_id int(4));
+Query OK, 0 rows affected, 1 warning (0.05 sec)
+
+mysql> DESC theater
+    -> ^C
+mysql> DESC theater;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| play   | varchar(10) | YES  |     | NULL    |       |
+| time   | varchar(5)  | YES  |     | NULL    |       |
+| act_id | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> DESC play;
+ERROR 1146 (42S02): Table 'mydb.play' doesn't exist
+mysql> DESC actors;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| act_id  | int         | YES  |     | NULL    |       |
+| ac_name | varchar(15) | YES  |     | NULL    |       |
+| play    | varchar(15) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table actor add primary key(act_id);
+ERROR 1146 (42S02): Table 'mydb.actor' doesn't exist
+mysql> alter table actors add primary key(act_id);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC actors;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| act_id  | int         | NO   | PRI | NULL    |       |
+| ac_name | varchar(15) | YES  |     | NULL    |       |
+| play    | varchar(15) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table theater add foreign key(play) references actors (play);
+ERROR 1822 (HY000): Failed to add the foreign key constraint. Missing index for constraint 'theater_ibfk_1' in the referenced table 'actors'
+mysql> alter table theater add foreign key(act_id) references actors (act_id);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC theater;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| play   | varchar(10) | YES  |     | NULL    |       |
+| time   | varchar(5)  | YES  |     | NULL    |       |
+| act_id | int         | YES  | MUL | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> CREATE TABLE suppliers (
+    ->     supplier_id INT AUTO_INCREMENT,
+    ->     name VARCHAR(255) NOT NULL,
+    ->     phone VARCHAR(15) NOT NULL UNIQUE,
+    ->     address VARCHAR(255) NOT NULL,
+    ->     PRIMARY KEY (supplier_id),
+    ->     CONSTRAINT uc_name_address UNIQUE (name , address)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> DESC suppliers
+    -> ^C
+mysql> DESC suppliers;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| supplier_id | int          | NO   | PRI | NULL    | auto_increment |
+| name        | varchar(255) | NO   | MUL | NULL    |                |
+| phone       | varchar(15)  | NO   | UNI | NULL    |                |
+| address     | varchar(255) | NO   |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> INSERT INTO suppliers(name, phone, address)
+    -> VALUES( 'ABC Inc',
+    ->        '(408)-908-2476',
+    ->        '4000 North 1st Street');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select*from suppliers;
++-------------+---------+----------------+-----------------------+
+| supplier_id | name    | phone          | address               |
++-------------+---------+----------------+-----------------------+
+|           1 | ABC Inc | (408)-908-2476 | 4000 North 1st Street |
++-------------+---------+----------------+-----------------------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO suppliers(name, phone, address)
+    -> VALUES( 'XYZ Corporation','(408)-908-2476','3000 North 1st Street');
+ERROR 1062 (23000): Duplicate entry '(408)-908-2476' for key 'suppliers.phone'
+mysql> CREATE TABLE parts (
+    ->     part_no VARCHAR(18) PRIMARY KEY,
+    ->     description VARCHAR(40),
+    ->     cost DECIMAL(10,2 ) NOT NULL CHECK (cost >= 0),
+    ->     price DECIMAL(10,2) NOT NULL CHECK (price >= 0)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO parts(part_no, description,cost,price)
+    -> ^C
+mysql>
+mysql> DESC parts;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| part_no     | varchar(18)   | NO   | PRI | NULL    |       |
+| description | varchar(40)   | YES  |     | NULL    |       |
+| cost        | decimal(10,2) | NO   |     | NULL    |       |
+| price       | decimal(10,2) | NO   |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> INSERT INTO parts(part_no, description,cost,price)
+    -> VALUES('A-001','Cooler',0,-100);
+ERROR 3819 (HY000): Check constraint 'parts_chk_2' is violated.
+mysql>
